@@ -1,0 +1,81 @@
+using System;
+using System.Linq;
+
+namespace Lab1
+{
+    class Program
+    {
+        static void Main()
+        {
+            // Генерируем случайный массив из N элементов от -10 до 10
+            int N = 10;
+            int[] array = new int[N];
+            Random random = new Random();
+            for (int i = 0; i < N; i++)
+            {
+                array[i] = random.Next(-3, 4);
+            }
+
+            // Вывод первоначального массива
+            Console.WriteLine("Первоначальный массив:");
+            foreach (int element in array)
+            {
+                Console.Write(element + " ");
+            }
+
+            // Произведение элементов с четными номерами
+            int product = 1;
+            for (int i = 0; i < N; i += 2)
+            {
+                product *= array[i];
+            }
+            Console.WriteLine("\nПроизведение элементов с четными номерами: " + product);
+
+            // Поиск индексов первого и последнего нулей
+            int firstZeroIndex = -1;
+            int lastZeroIndex = -1;
+
+            for (int i = 0; i < N; i++)
+            {
+                if (array[i] == 0)
+                {
+                    if (firstZeroIndex == -1)
+                    {
+                        firstZeroIndex = i;
+                    }
+                    lastZeroIndex = i;
+                }
+            }
+
+            if (firstZeroIndex == -1)
+            {
+                Console.WriteLine("В массиве нет нулей");
+            }
+            else if (firstZeroIndex == lastZeroIndex)
+            {
+                Console.WriteLine("В массиве всего 1 ноль");
+            }
+            else
+            {
+                int sum = 0;
+                for (int i = firstZeroIndex + 1; i < lastZeroIndex; i++)
+                {
+                    sum += array[i];
+                }
+                Console.WriteLine("Сумма элементов между первым и последним нулевыми элементами: " + sum);
+            }
+
+            // Преобразование массива
+            array = array.OrderByDescending(x => x >= 0).ThenBy(x => x).ToArray();
+
+            // Вывод преобразованного массива
+            Console.WriteLine("Преобразованный массив:");
+            foreach (int element in array)
+            {
+                Console.Write(element + " ");
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
