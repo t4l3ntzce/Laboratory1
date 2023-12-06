@@ -1,0 +1,70 @@
+using System;
+
+namespace Lab1
+{
+    class Program1
+    {
+        static void Main(string[] args)
+        {
+            Random random = new Random();
+            int[,] matrix = new int[5, 10];
+
+            // Заполнение и вывод массива
+            for (int i = 0; i < 5; ++i)
+            {
+                for (int j = 0; j < 10; ++j)
+                {
+                    matrix[i, j] = random.Next(-1, 5);
+                    Console.Write("{0,4}", matrix[i, j]);
+                }
+                Console.WriteLine();
+            }
+
+            // Подсчет столбцов с нулями
+            Console.Write("Количество столбцов с нулями:");
+            int columnsWithZerosCount = 0;
+            for (int j = 0; j < 10; ++j)
+            {
+                bool hasZero = false;
+                for (int i = 0; i < 5; ++i)
+                    if (matrix[i, j] == 0) hasZero = true;
+                if (hasZero) ++columnsWithZerosCount;
+            }
+            Console.WriteLine(" {0}", columnsWithZerosCount);
+
+            // Поиск строки с самой длинной серией одинаковых элементов
+            int maxSeriesLength = 1;
+            int maxSeriesRow = 0;
+            for (int i = 0; i < 5; ++i)
+            {
+                int currentSeriesLength = 1;
+                int currentSeriesCount = 0;
+                for (int j = 1; j < 9; ++j)
+                {
+                    if (matrix[i, j] == matrix[i, j + 1]) ++currentSeriesCount;
+
+                    if (currentSeriesCount > currentSeriesLength)
+                        currentSeriesLength = currentSeriesCount;
+                    else
+                        currentSeriesCount = 1;
+
+                    if (currentSeriesLength > maxSeriesLength)
+                    {
+                        maxSeriesRow = i;
+                        maxSeriesLength = currentSeriesLength;
+                    }
+                }
+            }
+
+            // Вывод результатов
+            if (maxSeriesLength == 1)
+                Console.WriteLine("Нет строк с сериями одинаковых элементов");
+            else
+                Console.WriteLine("Номер строки с самой длинной серией одинаковых элементов: {0}", maxSeriesRow);
+
+            Console.WriteLine("Количество идущих подряд одинаковых элементов: {0}", maxSeriesLength);
+
+            Console.ReadLine();
+        }
+    }
+}
